@@ -159,7 +159,7 @@ const Organizations = () => {
             // checkboxSelection
             pageSize={pageSize}
             disableSelectionOnClick
-            rowsPerPageOptions={[10, 25, 50]}
+            rowsPerPageOptions={[10, 25, 50, 100]}
             sx={{ '& .MuiDataGrid-columnHeaders': { borderRadius: 0 } }}
             onPageSizeChange={newPageSize => setPageSize(newPageSize)}
           />
