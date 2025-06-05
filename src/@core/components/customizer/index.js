@@ -281,7 +281,7 @@ const Customizer = () => {
               </RadioGroup>
             </Box>
 
-            <Box sx={{ mb: 4 }}>
+            {/* <Box sx={{ mb: 4 }}>
               <Typography>Footer Type</Typography>
               <RadioGroup
                 row
@@ -293,7 +293,7 @@ const Customizer = () => {
                 <FormControlLabel value='static' label='Static' control={<Radio />} />
                 <FormControlLabel value='hidden' label='Hidden' control={<Radio />} />
               </RadioGroup>
-            </Box>
+            </Box> */}
 
             <Box sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <Typography>AppBar Blur</Typography>
