@@ -5,11 +5,8 @@ import { useState } from 'react'
 import Link from 'next/link'
 
 // ** MUI Components
-import Alert from '@mui/material/Alert'
 import MuiLink from '@mui/material/Link'
 import Button from '@mui/material/Button'
-import Divider from '@mui/material/Divider'
-import Checkbox from '@mui/material/Checkbox'
 import TextField from '@mui/material/TextField'
 import InputLabel from '@mui/material/InputLabel'
 import IconButton from '@mui/material/IconButton'
@@ -24,10 +21,6 @@ import Typography from '@mui/material/Typography'
 import MuiFormControlLabel from '@mui/material/FormControlLabel'
 
 // ** Icons Imports
-import Google from 'mdi-material-ui/Google'
-import Github from 'mdi-material-ui/Github'
-import Twitter from 'mdi-material-ui/Twitter'
-import Facebook from 'mdi-material-ui/Facebook'
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 
@@ -48,7 +41,7 @@ import themeConfig from 'src/configs/themeConfig'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
-import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
+import FooterIllustrationsV2 from 'src/components/FooterIllustrationsV2'
 
 // ** Styled Components
 const LoginIllustrationWrapper = styled(Box)(({ theme }) => ({
@@ -101,13 +94,13 @@ const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
 }))
 
 const schema = yup.object().shape({
-  email: yup.string().email().required(),
+  username: yup.string().min(3).required(),
   password: yup.string().min(5).required()
 })
 
 const defaultValues = {
-  password: 'admin',
-  email: 'admin@materialize.com'
+  password: '123456',
+  username: 'unju'
 }
 
 const LoginPage = () => {
@@ -135,11 +128,11 @@ const LoginPage = () => {
   })
 
   const onSubmit = data => {
-    const { email, password } = data
-    auth.login({ email, password }, () => {
-      setError('email', {
+    const { username, password } = data
+    auth.login({ username, password }, () => {
+      setError('username', {
         type: 'manual',
-        message: 'Email or Password is invalid'
+        message: 'Username or Password is invalid'
       })
     })
   }
@@ -258,33 +251,25 @@ const LoginPage = () => {
               <TypographyStyled variant='h5'>{`Welcome to ${themeConfig.templateName}! 👋🏻`}</TypographyStyled>
               <Typography variant='body2'>Please sign-in to your account and start the adventure</Typography>
             </Box>
-            <Alert icon={false} sx={{ py: 3, mb: 6, ...bgClasses.primaryLight, '& .MuiAlert-message': { p: 0 } }}>
-              <Typography variant='caption' sx={{ mb: 2, display: 'block', color: 'primary.main' }}>
-                Admin: <strong>admin@materialize.com</strong> / Pass: <strong>admin</strong>
-              </Typography>
-              <Typography variant='caption' sx={{ display: 'block', color: 'primary.main' }}>
-                Client: <strong>client@materialize.com</strong> / Pass: <strong>client</strong>
-              </Typography>
-            </Alert>
             <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
               <FormControl fullWidth sx={{ mb: 4 }}>
                 <Controller
-                  name='email'
+                  name='username'
                   control={control}
                   rules={{ required: true }}
                   render={({ field: { value, onChange, onBlur } }) => (
                     <TextField
                       autoFocus
-                      label='Email'
+                      label='Username'
                       value={value}
                       onBlur={onBlur}
                       onChange={onChange}
-                      error={Boolean(errors.email)}
-                      placeholder='admin@materialize.com'
+                      error={Boolean(errors.username)}
+                      placeholder='unju'
                     />
                   )}
                 />
-                {errors.email && <FormHelperText sx={{ color: 'error.main' }}>{errors.email.message}</FormHelperText>}
+                {errors.username && <FormHelperText sx={{ color: 'error.main' }}>{errors.username.message}</FormHelperText>}
               </FormControl>
               <FormControl fullWidth>
                 <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
@@ -325,18 +310,7 @@ const LoginPage = () => {
               </FormControl>
               <Box
                 sx={{ mb: 4, display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between' }}
-              >
-                <FormControlLabel
-                  label='Remember Me'
-                  control={<Checkbox />}
-                  sx={{ '& .MuiFormControlLabel-label': { color: 'text.primary' } }}
-                />
-                <Link passHref href='/forgot-password'>
-                  <Typography component={MuiLink} variant='body2' sx={{ color: 'primary.main' }}>
-                    Forgot Password?
-                  </Typography>
-                </Link>
-              </Box>
+              />
               <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 7 }}>
                 Login
               </Button>
@@ -349,31 +323,6 @@ const LoginPage = () => {
                     </Typography>
                   </Link>
                 </Typography>
-              </Box>
-              <Divider sx={{ mt: 5, mb: 7.5, '& .MuiDivider-wrapper': { px: 4 } }}>or</Divider>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Link href='/' passHref>
-                  <IconButton component='a' onClick={e => e.preventDefault()}>
-                    <Facebook sx={{ color: '#497ce2' }} />
-                  </IconButton>
-                </Link>
-                <Link href='/' passHref>
-                  <IconButton component='a' onClick={e => e.preventDefault()}>
-                    <Twitter sx={{ color: '#1da1f2' }} />
-                  </IconButton>
-                </Link>
-                <Link href='/' passHref>
-                  <IconButton component='a' onClick={e => e.preventDefault()}>
-                    <Github
-                      sx={{ color: theme => (theme.palette.mode === 'light' ? '#272727' : theme.palette.grey[300]) }}
-                    />
-                  </IconButton>
-                </Link>
-                <Link href='/' passHref>
-                  <IconButton component='a' onClick={e => e.preventDefault()}>
-                    <Google sx={{ color: '#db4437' }} />
-                  </IconButton>
-                </Link>
               </Box>
             </form>
           </BoxWrapper>

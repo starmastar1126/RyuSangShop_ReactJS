@@ -11,7 +11,7 @@ import Box from '@mui/material/Box'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
-import FooterIllustrations from 'src/views/pages/misc/FooterIllustrations'
+import FooterIllustrations from 'src/components/FooterIllustrations'
 
 // ** Styled Components
 const BoxWrapper = styled(Box)(({ theme }) => ({
@@ -33,30 +33,30 @@ const Img = styled('img')(({ theme }) => ({
   }
 }))
 
-const Error404 = () => {
+const Error500 = () => {
   return (
     <Box className='content-center'>
       <Box sx={{ p: 5, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
         <BoxWrapper>
           <Typography variant='h1' sx={{ mb: 2.5 }}>
-            404
+            500
           </Typography>
-          <Typography variant='h5' sx={{ mb: 2.5, letterSpacing: '0.18px', fontSize: '1.5rem !important' }}>
-            Page Not Found ⚠️
+          <Typography variant='h5' sx={{ mb: 2.5, fontSize: '1.5rem !important' }}>
+            Internal server error 👨🏻‍💻
           </Typography>
-          <Typography variant='body2'>We couldn&prime;t find the page you are looking for.</Typography>
+          <Typography variant='body2'>Oops, something went wrong!</Typography>
         </BoxWrapper>
-        <Img alt='error-illustration' src='/images/pages/404.png' />
+        <Img alt='error-illustration' src='/images/pages/500.png' />
         <Link passHref href='/'>
           <Button component='a' variant='contained' sx={{ px: 5.5 }}>
             Back to Home
           </Button>
         </Link>
       </Box>
-      <FooterIllustrations image='/images/pages/misc-404-object.png' />
+      <FooterIllustrations image='/images/pages/misc-500-object.png' />
     </Box>
   )
 }
-Error404.getLayout = page => <BlankLayout>{page}</BlankLayout>
+Error500.getLayout = page => <BlankLayout>{page}</BlankLayout>
 
-export default Error404
+export default Error500

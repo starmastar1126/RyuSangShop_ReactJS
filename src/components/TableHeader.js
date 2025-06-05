@@ -2,30 +2,27 @@
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
-
-import Translations from 'src/layouts/components/Translations'
+import Typography from '@mui/material/Typography'
 
 const TableHeader = props => {
   // ** Props
-  const { handleFilter, toggle, value } = props
+  const { handleFilter, toggle, value, title, placeholder, button } = props
 
   return (
     <Box sx={{ p: 5, pb: 3, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
-      {/* <Button sx={{ mr: 4, mb: 2 }} color='secondary' variant='outlined' startIcon={<ExportVariant fontSize='small' />}>
-        Export
-      </Button> */}
+      <Typography variant='h6'>{title}</Typography>
       <Box />
       <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
         <TextField
           size='small'
           value={value}
           sx={{ mr: 6, mb: 2 }}
-          placeholder={<Translations text='Search Organization' />}
+          placeholder={placeholder}
           onChange={e => handleFilter(e.target.value)}
         />
 
         <Button sx={{ mb: 2 }} onClick={toggle} variant='contained'>
-          <Translations text='Add Organization' />
+          {button}
         </Button>
       </Box>
     </Box>

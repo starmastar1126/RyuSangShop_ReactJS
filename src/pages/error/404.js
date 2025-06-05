@@ -11,7 +11,7 @@ import Box from '@mui/material/Box'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
-import FooterIllustrations from 'src/views/pages/misc/FooterIllustrations'
+import FooterIllustrations from 'src/components/FooterIllustrations'
 
 // ** Styled Components
 const BoxWrapper = styled(Box)(({ theme }) => ({
@@ -33,30 +33,30 @@ const Img = styled('img')(({ theme }) => ({
   }
 }))
 
-const Error401 = () => {
+const Error404 = () => {
   return (
     <Box className='content-center'>
       <Box sx={{ p: 5, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
         <BoxWrapper>
           <Typography variant='h1' sx={{ mb: 2.5 }}>
-            401
+            404
           </Typography>
-          <Typography variant='h5' sx={{ mb: 2.5, fontSize: '1.5rem !important' }}>
-            You are not authorized! 🔐
+          <Typography variant='h5' sx={{ mb: 2.5, letterSpacing: '0.18px', fontSize: '1.5rem !important' }}>
+            Page Not Found ⚠️
           </Typography>
-          <Typography variant='body2'>You don&prime;t have permission to access this page. Go Home!</Typography>
+          <Typography variant='body2'>We couldn&prime;t find the page you are looking for.</Typography>
         </BoxWrapper>
-        <Img alt='error-illustration' src='/images/pages/401.png' />
+        <Img alt='error-illustration' src='/images/pages/404.png' />
         <Link passHref href='/'>
           <Button component='a' variant='contained' sx={{ px: 5.5 }}>
             Back to Home
           </Button>
         </Link>
       </Box>
-      <FooterIllustrations image='/images/pages/misc-401-object.png' />
+      <FooterIllustrations image='/images/pages/misc-404-object.png' />
     </Box>
   )
 }
-Error401.getLayout = page => <BlankLayout>{page}</BlankLayout>
+Error404.getLayout = page => <BlankLayout>{page}</BlankLayout>
 
-export default Error401
+export default Error404

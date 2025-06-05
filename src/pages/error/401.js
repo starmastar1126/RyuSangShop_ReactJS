@@ -11,7 +11,7 @@ import Box from '@mui/material/Box'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
-import FooterIllustrations from 'src/views/pages/misc/FooterIllustrations'
+import FooterIllustrations from 'src/components/FooterIllustrations'
 
 // ** Styled Components
 const BoxWrapper = styled(Box)(({ theme }) => ({
@@ -33,30 +33,30 @@ const Img = styled('img')(({ theme }) => ({
   }
 }))
 
-const Error500 = () => {
+const Error401 = () => {
   return (
     <Box className='content-center'>
       <Box sx={{ p: 5, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
         <BoxWrapper>
           <Typography variant='h1' sx={{ mb: 2.5 }}>
-            500
+            401
           </Typography>
           <Typography variant='h5' sx={{ mb: 2.5, fontSize: '1.5rem !important' }}>
-            Internal server error 👨🏻‍💻
+            You are not authorized! 🔐
           </Typography>
-          <Typography variant='body2'>Oops, something went wrong!</Typography>
+          <Typography variant='body2'>You don&prime;t have permission to access this page. Go Home!</Typography>
         </BoxWrapper>
-        <Img alt='error-illustration' src='/images/pages/500.png' />
+        <Img alt='error-illustration' src='/images/pages/401.png' />
         <Link passHref href='/'>
           <Button component='a' variant='contained' sx={{ px: 5.5 }}>
             Back to Home
           </Button>
         </Link>
       </Box>
-      <FooterIllustrations image='/images/pages/misc-500-object.png' />
+      <FooterIllustrations image='/images/pages/misc-401-object.png' />
     </Box>
   )
 }
-Error500.getLayout = page => <BlankLayout>{page}</BlankLayout>
+Error401.getLayout = page => <BlankLayout>{page}</BlankLayout>
 
-export default Error500
+export default Error401

@@ -11,7 +11,7 @@ import { AbilityContext } from 'src/layouts/components/acl/Can'
 import { buildAbilityFor } from 'src/configs/acl'
 
 // ** Component Import
-import NotAuthorized from 'src/pages/401'
+import NotAuthorized from 'src/pages/error/401'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Hooks
@@ -27,7 +27,7 @@ const AclGuard = props => {
   const router = useRouter()
 
   // If guestGuard is true and user is not logged in or its an error page, render the page without checking access
-  if (guestGuard || router.route === '/404' || router.route === '/500' || router.route === '/') {
+  if (guestGuard || router.route === '/error/404' || router.route === '/error/500' || router.route === '/') {
     return <>{children}</>
   }
 
