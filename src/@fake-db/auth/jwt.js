@@ -8,23 +8,18 @@ const users = [
   {
     id: 1,
     role: 'admin',
-    password: 'Silas@1126!',
-    fullname: 'Silas Jones',
-    username: 'starmastar1126'
+    password: 'admin',
+    fullName: 'John Doe',
+    username: 'johndoe',
+    email: 'admin@materialize.com'
   },
   {
     id: 2,
-    role: 'admin',
-    password: '123456',
-    fullname: 'Hwang UnJu',
-    username: 'unju'
-  },
-  {
-    id: 3,
-    role: 'admin',
-    password: '123456',
-    fullname: 'Ryang HyoKyong',
-    username: 'hyokyong'
+    role: 'client',
+    password: 'client',
+    fullName: 'Jane Doe',
+    username: 'janedoe',
+    email: 'client@materialize.com'
   }
 ]
 
@@ -34,12 +29,12 @@ const jwtConfig = {
   refreshTokenSecret: '7c4c1c50-3230-45bf-9eae-c9b2e401c767'
 }
 mock.onPost('/jwt/login').reply(request => {
-  const { username, password } = JSON.parse(request.data)
+  const { email, password } = JSON.parse(request.data)
 
   let error = {
-    username: ['Something went wrong']
+    email: ['Something went wrong']
   }
-  const user = users.find(u => u.username === username && u.password === password)
+  const user = users.find(u => u.email === email && u.password === password)
   if (user) {
     const accessToken = jwt.sign({ id: user.id }, jwtConfig.secret)
 
@@ -50,7 +45,7 @@ mock.onPost('/jwt/login').reply(request => {
     return [200, response]
   } else {
     error = {
-      username: ['Username or Password is Invalid']
+      email: ['email or Password is Invalid']
     }
 
     return [400, { error }]
@@ -58,13 +53,15 @@ mock.onPost('/jwt/login').reply(request => {
 })
 mock.onPost('/jwt/register').reply(request => {
   if (request.data.length > 0) {
-    const { fullname, password, username } = JSON.parse(request.data)
+    const { email, password, username } = JSON.parse(request.data)
+    const isEmailAlreadyInUse = users.find(user => user.email === email)
     const isUsernameAlreadyInUse = users.find(user => user.username === username)
 
     const error = {
+      email: isEmailAlreadyInUse ? 'This email is already in use.' : null,
       username: isUsernameAlreadyInUse ? 'This username is already in use.' : null
     }
-    if (!error.username) {
+    if (!error.username && !error.email) {
       const { length } = users
       let lastIndex = 0
       if (length) {
@@ -73,10 +70,11 @@ mock.onPost('/jwt/register').reply(request => {
 
       const userData = {
         id: lastIndex + 1,
+        email,
         password,
         username,
         avatar: null,
-        fullname,
+        fullName: '',
         role: 'admin'
       }
       users.push(userData)

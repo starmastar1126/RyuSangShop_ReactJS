@@ -47,7 +47,7 @@ const UserLayout = ({ children }) => {
             // horizontalNavItems: ServerSideHorizontalNavItems(),
             // ** AppBar Content
             horizontalAppBarContent: () => (
-              <HorizontalAppBarContent hidden={hidden} settings={settings} saveSettings={saveSettings} />
+              <HorizontalAppBarContent settings={settings} saveSettings={saveSettings} />
             )
           }
         : {

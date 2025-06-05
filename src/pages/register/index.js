@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState } from 'react'
+import { useState, Fragment } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
@@ -7,6 +7,8 @@ import Link from 'next/link'
 // ** MUI Components
 import MuiLink from '@mui/material/Link'
 import Button from '@mui/material/Button'
+import Divider from '@mui/material/Divider'
+import Checkbox from '@mui/material/Checkbox'
 import TextField from '@mui/material/TextField'
 import InputLabel from '@mui/material/InputLabel'
 import IconButton from '@mui/material/IconButton'
@@ -18,8 +20,13 @@ import { styled, useTheme } from '@mui/material/styles'
 import FormHelperText from '@mui/material/FormHelperText'
 import InputAdornment from '@mui/material/InputAdornment'
 import Typography from '@mui/material/Typography'
+import MuiFormControlLabel from '@mui/material/FormControlLabel'
 
 // ** Icons Imports
+import Google from 'mdi-material-ui/Google'
+import Github from 'mdi-material-ui/Github'
+import Twitter from 'mdi-material-ui/Twitter'
+import Facebook from 'mdi-material-ui/Facebook'
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 
@@ -39,12 +46,13 @@ import { useAuth } from 'src/hooks/useAuth'
 import { useSettings } from 'src/@core/hooks/useSettings'
 
 // ** Demo Imports
-import FooterIllustrationsV2 from 'src/components/FooterIllustrationsV2'
+import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 
 const defaultValues = {
-  fullname: '',
+  email: '',
   username: '',
-  password: ''
+  password: '',
+  terms: false
 }
 
 // ** Styled Components
@@ -90,6 +98,14 @@ const TypographyStyled = styled(Typography)(({ theme }) => ({
   [theme.breakpoints.down('md')]: { marginTop: theme.spacing(8) }
 }))
 
+const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
+  marginBottom: theme.spacing(4),
+  '& .MuiFormControlLabel-label': {
+    fontSize: '0.875rem',
+    color: theme.palette.text.secondary
+  }
+}))
+
 const Register = () => {
   // ** States
   const [showPassword, setShowPassword] = useState(false)
@@ -106,7 +122,8 @@ const Register = () => {
   const schema = yup.object().shape({
     password: yup.string().min(5).required(),
     username: yup.string().min(3).required(),
-    fullname: yup.string().min(3).required(),
+    email: yup.string().email().required(),
+    terms: yup.bool().oneOf([true], 'You must accept the privacy policy & terms')
   })
 
   const {
@@ -121,8 +138,14 @@ const Register = () => {
   })
 
   const onSubmit = data => {
-    const { username, password, fullname } = data
-    register({ username, password, fullname }, err => {
+    const { email, username, password } = data
+    register({ email, username, password }, err => {
+      if (err.email) {
+        setError('email', {
+          type: 'manual',
+          message: err.email
+        })
+      }
       if (err.username) {
         setError('username', {
           type: 'manual',
@@ -259,7 +282,7 @@ const Register = () => {
                       onBlur={onBlur}
                       label='Username'
                       onChange={onChange}
-                      placeholder='UnJu'
+                      placeholder='johndoe'
                       error={Boolean(errors.username)}
                     />
                   )}
@@ -270,24 +293,21 @@ const Register = () => {
               </FormControl>
               <FormControl fullWidth sx={{ mb: 4 }}>
                 <Controller
-                  name='fullname'
+                  name='email'
                   control={control}
                   rules={{ required: true }}
                   render={({ field: { value, onChange, onBlur } }) => (
                     <TextField
-                      autoFocus
                       value={value}
+                      label='Email'
                       onBlur={onBlur}
-                      label='Full Name'
                       onChange={onChange}
-                      placeholder='Hwang UnJu'
-                      error={Boolean(errors.fullname)}
+                      error={Boolean(errors.email)}
+                      placeholder='user@email.com'
                     />
                   )}
                 />
-                {errors.fullname && (
-                  <FormHelperText sx={{ color: 'error.main' }}>{errors.fullname.message}</FormHelperText>
-                )}
+                {errors.email && <FormHelperText sx={{ color: 'error.main' }}>{errors.email.message}</FormHelperText>}
               </FormControl>
               <FormControl fullWidth>
                 <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
@@ -325,7 +345,55 @@ const Register = () => {
                 )}
               </FormControl>
 
-              <Button fullWidth size='large' type='submit' variant='contained' sx={{ mt: 5, mb: 7 }}>
+              <FormControl sx={{ my: 0 }} error={Boolean(errors.terms)}>
+                <Controller
+                  name='terms'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => {
+                    return (
+                      <FormControlLabel
+                        sx={{
+                          ...(errors.terms ? { color: 'error.main' } : null),
+                          '& .MuiFormControlLabel-label': { fontSize: '0.875rem' }
+                        }}
+                        control={
+                          <Checkbox
+                            checked={value}
+                            onChange={onChange}
+                            sx={errors.terms ? { color: 'error.main' } : null}
+                          />
+                        }
+                        label={
+                          <Fragment>
+                            <Typography
+                              variant='body2'
+                              component='span'
+                              sx={{ color: errors.terms ? 'error.main' : '' }}
+                            >
+                              I agree to{' '}
+                            </Typography>
+                            <Link href='/' passHref>
+                              <Typography
+                                variant='body2'
+                                component={MuiLink}
+                                sx={{ color: 'primary.main' }}
+                                onClick={e => e.preventDefault()}
+                              >
+                                privacy policy & terms
+                              </Typography>
+                            </Link>
+                          </Fragment>
+                        }
+                      />
+                    )
+                  }}
+                />
+                {errors.terms && (
+                  <FormHelperText sx={{ mt: 0, color: 'error.main' }}>{errors.terms.message}</FormHelperText>
+                )}
+              </FormControl>
+              <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 7 }}>
                 Sign up
               </Button>
               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
@@ -337,6 +405,31 @@ const Register = () => {
                     </Typography>
                   </Link>
                 </Typography>
+              </Box>
+              <Divider sx={{ mt: 5, mb: 7.5, '& .MuiDivider-wrapper': { px: 4 } }}>or</Divider>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Link href='/' passHref>
+                  <IconButton component='a' onClick={e => e.preventDefault()}>
+                    <Facebook sx={{ color: '#497ce2' }} />
+                  </IconButton>
+                </Link>
+                <Link href='/' passHref>
+                  <IconButton component='a' onClick={e => e.preventDefault()}>
+                    <Twitter sx={{ color: '#1da1f2' }} />
+                  </IconButton>
+                </Link>
+                <Link href='/' passHref>
+                  <IconButton component='a' onClick={e => e.preventDefault()}>
+                    <Github
+                      sx={{ color: theme => (theme.palette.mode === 'light' ? '#272727' : theme.palette.grey[300]) }}
+                    />
+                  </IconButton>
+                </Link>
+                <Link href='/' passHref>
+                  <IconButton component='a' onClick={e => e.preventDefault()}>
+                    <Google sx={{ color: '#db4437' }} />
+                  </IconButton>
+                </Link>
               </Box>
             </form>
           </BoxWrapper>
