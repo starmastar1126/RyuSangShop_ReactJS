@@ -1,5 +1,5 @@
 import mock from './mock'
 import './auth/jwt'
-import './basic-data/organization'
+import './basic/organization'
 
 mock.onAny().passThrough()

@@ -20,7 +20,7 @@ import DeleteOutline from 'mdi-material-ui/DeleteOutline'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Actions Imports
-import { fetchData, deleteOrganization } from 'src/store/basic-data/organization'
+import { fetchData, deleteOrganization } from 'src/store/basic/organization'
 
 // ** Custom Components Imports
 import TableHeader from 'src/components/TableHeader'

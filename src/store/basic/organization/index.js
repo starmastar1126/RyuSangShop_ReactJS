@@ -5,7 +5,7 @@ import axios from 'axios'
 
 // ** Fetch Organizations
 export const fetchData = createAsyncThunk('organization/fetchData', async params => {
-  const response = await axios.get('/basic-data/organization/list', {
+  const response = await axios.get('/basic/organization/list', {
     params
   })
 
@@ -14,7 +14,7 @@ export const fetchData = createAsyncThunk('organization/fetchData', async params
 
 // ** Add Organization
 export const addOrganization = createAsyncThunk('organization/addOrganization', async (data, { getState, dispatch }) => {
-  const response = await axios.post('/basic-data/organization/add', {
+  const response = await axios.post('/basic/organization/add', {
     data
   })
   dispatch(fetchData(getState().organization.params))
@@ -24,7 +24,7 @@ export const addOrganization = createAsyncThunk('organization/addOrganization', 
 
 // ** Delete Organization
 export const deleteOrganization = createAsyncThunk('organization/deleteOrganization', async (id, { getState, dispatch }) => {
-  const response = await axios.delete('/basic-data/organization/delete', {
+  const response = await axios.delete('/basic/organization/delete', {
     data: id
   })
   dispatch(fetchData(getState().organization.params))

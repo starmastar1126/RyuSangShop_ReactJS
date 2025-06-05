@@ -20,7 +20,7 @@ import Close from 'mdi-material-ui/Close'
 import { useDispatch } from 'react-redux'
 
 // ** Actions Imports
-import { addOrganization } from 'src/store/basic-data/organization'
+import { addOrganization } from 'src/store/basic/organization'
 
 const showErrors = (field, valueLen, min) => {
   if (valueLen === 0) {

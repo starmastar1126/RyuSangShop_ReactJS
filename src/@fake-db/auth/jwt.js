@@ -76,7 +76,7 @@ mock.onPost('/jwt/register').reply(request => {
         password,
         username,
         avatar: null,
-        fullname: '',
+        fullname,
         role: 'admin'
       }
       users.push(userData)

@@ -15,27 +15,27 @@ const navigation = () => {
         {
           icon: LeafCircle,
           title: 'Organization',
-          path: '/basic-data/organization'
+          path: '/basic/organization'
         },
         {
           icon: AccountGroupOutline,
           title: 'Client',
-          path: '/basic-data/client'
+          path: '/basic/client'
         },
         {
           icon: Shape,
           title: 'Category',
-          path: '/basic-data/category'
+          path: '/basic/category'
         },
         {
           icon: Apps,
           title: 'Product',
-          path: '/basic-data/product'
+          path: '/basic/product'
         },
         {
           icon: Store,
           title: 'Spot',
-          path: '/basic-data/spot'
+          path: '/basic/spot'
         }
       ]
     }

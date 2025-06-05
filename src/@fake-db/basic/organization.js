@@ -95,7 +95,7 @@ const data = {
 }
 
 // POST: Add new organization
-mock.onPost('/basic-data/organization/add').reply(config => {
+mock.onPost('/basic/organization/add').reply(config => {
   // Get event from post data
   const organization = JSON.parse(config.data).data
   const { length } = data.organizations
@@ -110,7 +110,7 @@ mock.onPost('/basic-data/organization/add').reply(config => {
 })
 
 // GET: Updated DATA
-mock.onGet('/basic-data/organization/list').reply(config => {
+mock.onGet('/basic/organization/list').reply(config => {
   const { q = '' } = config.params ?? ''
   const queryLowered = q.toLowerCase()
 
@@ -130,7 +130,7 @@ mock.onGet('/basic-data/organization/list').reply(config => {
 })
 
 // GET: particular organization data
-mock.onGet('/basic-data/organization').reply(config => {
+mock.onGet('/basic/organization').reply(config => {
   const { id } = config.params
   const organizationData = data.organizations.filter(organization => organization.id === parseInt(id, 10))
   if (organizationData.length) {
@@ -141,7 +141,7 @@ mock.onGet('/basic-data/organization').reply(config => {
 })
 
 // DELETE: Deletes organization
-mock.onDelete('/basic-data/organization/delete').reply(config => {
+mock.onDelete('/basic/organization/delete').reply(config => {
   // Get organization id from URL
   const organizationId = config.data
   const organizationIndex = data.organizations.findIndex(t => t.id === organizationId)
