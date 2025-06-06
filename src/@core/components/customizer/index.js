@@ -281,7 +281,7 @@ const Customizer = () => {
               </RadioGroup>
             </Box>
 
-            <Box sx={{ mb: 4 }}>
+            {/* <Box sx={{ mb: 4 }}>
               <Typography>Footer Type</Typography>
               <RadioGroup
                 row
@@ -293,7 +293,7 @@ const Customizer = () => {
                 <FormControlLabel value='static' label='Static' control={<Radio />} />
                 <FormControlLabel value='hidden' label='Hidden' control={<Radio />} />
               </RadioGroup>
-            </Box>
+            </Box> */}
 
             <Box sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <Typography>AppBar Blur</Typography>
@@ -304,14 +304,14 @@ const Customizer = () => {
               />
             </Box>
 
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            {/* <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <Typography>RTL</Typography>
               <Switch
                 name='direction'
                 checked={direction === 'rtl'}
                 onChange={e => handleChange('direction', e.target.checked ? 'rtl' : 'ltr')}
               />
-            </Box>
+            </Box> */}
           </CustomizerSpacing>
 
           <Divider sx={{ m: 0 }} />
@@ -325,7 +325,7 @@ const Customizer = () => {
               Menu
             </Typography>
 
-            <Box sx={{ mb: layout === 'horizontal' && appBar === 'hidden' ? {} : 4 }}>
+            {/* <Box sx={{ mb: layout === 'horizontal' && appBar === 'hidden' ? {} : 4 }}>
               <Typography>Menu Layout</Typography>
               <RadioGroup
                 row
@@ -342,7 +342,7 @@ const Customizer = () => {
                 <FormControlLabel value='vertical' label='Vertical' control={<Radio />} />
                 <FormControlLabel value='horizontal' label='Horizontal' control={<Radio />} />
               </RadioGroup>
-            </Box>
+            </Box> */}
 
             {navHidden || layout === 'horizontal' ? null : (
               <Box sx={{ mb: 4 }}>
