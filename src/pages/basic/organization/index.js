@@ -63,7 +63,10 @@ const Organization = () => {
     handleSubmit,
     formState: { errors }
   } = useForm({
-    defaultValues: '',
+    defaultValues: {
+      id: 0,
+      name: '',
+    },
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
@@ -85,10 +88,12 @@ const Organization = () => {
 
   const onSubmit = data => {
     const { id, name } = data
+
     if (!cancel)
       dispatch(addOrganization({ name }))
     else
       dispatch(editOrganization({ id, name }))
+
     setSearch('')
     handleCancel()
   }
