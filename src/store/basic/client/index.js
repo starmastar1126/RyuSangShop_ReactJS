@@ -7,8 +7,8 @@ import { Http } from 'src/configs/http'
 import urls from 'src/configs/urls'
 import utils from 'src/configs/utils'
 
-// ** Fetch Organizations
-export const fetchOrganization = createAsyncThunk('organization/fetchData', async (params, thunkAPI) => {
+// ** Fetch Clients
+export const fetchClient = createAsyncThunk('client/fetchData', async (params, thunkAPI) => {
   const header = {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${window.localStorage.getItem(urls.access)}`
@@ -16,7 +16,7 @@ export const fetchOrganization = createAsyncThunk('organization/fetchData', asyn
 
   try {
     let url = utils.toURL({
-      url: urls.organization,
+      url: urls.client,
       query: params
     })
 
@@ -32,7 +32,7 @@ export const fetchOrganization = createAsyncThunk('organization/fetchData', asyn
   }
 })
 
-export const addOrganization = createAsyncThunk('organization/addData', async (params, thunkAPI) => {
+export const addClient = createAsyncThunk('client/addData', async (params, thunkAPI) => {
   const header = {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${window.localStorage.getItem(urls.access)}`
@@ -40,7 +40,7 @@ export const addOrganization = createAsyncThunk('organization/addData', async (p
 
   try {
     let url = utils.toURL({
-      url: urls.organization,
+      url: urls.client,
       query: params
     })
 
@@ -63,7 +63,7 @@ export const addOrganization = createAsyncThunk('organization/addData', async (p
   }
 })
 
-export const editOrganization = createAsyncThunk('organization/editData', async (params, thunkAPI) => {
+export const editClient = createAsyncThunk('client/editData', async (params, thunkAPI) => {
   const header = {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${window.localStorage.getItem(urls.access)}`
@@ -71,7 +71,7 @@ export const editOrganization = createAsyncThunk('organization/editData', async 
 
   try {
     let url = utils.toURL({
-      url: urls.organization,
+      url: urls.client,
       query: params
     })
 
@@ -94,7 +94,7 @@ export const editOrganization = createAsyncThunk('organization/editData', async 
   }
 })
 
-export const deleteOrganization = createAsyncThunk('organization/deleteData', async (params, thunkAPI) => {
+export const deleteClient = createAsyncThunk('client/deleteData', async (params, thunkAPI) => {
   const header = {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${window.localStorage.getItem(urls.access)}`
@@ -102,7 +102,7 @@ export const deleteOrganization = createAsyncThunk('organization/deleteData', as
 
   try {
     let url = utils.toURL({
-      url: urls.organization,
+      url: urls.client,
       query: params
     })
 
@@ -123,8 +123,8 @@ export const deleteOrganization = createAsyncThunk('organization/deleteData', as
   }
 })
 
-export const organizationSlice = createSlice({
-  name: 'organization',
+export const clientSlice = createSlice({
+  name: 'client',
   initialState: {
     data: [],
     total: 0
@@ -132,23 +132,23 @@ export const organizationSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(fetchOrganization.fulfilled, (state, action) => {
+      .addCase(fetchClient.fulfilled, (state, action) => {
         state.data = action.payload?.items
         state.total = action.payload?.total
       })
-      .addCase(addOrganization.fulfilled, (state, action) => {
+      .addCase(addClient.fulfilled, (state, action) => {
         state.data = action.payload?.items
         state.total = action.payload?.total
       })
-      .addCase(editOrganization.fulfilled, (state, action) => {
+      .addCase(editClient.fulfilled, (state, action) => {
         state.data = action.payload?.items
         state.total = action.payload?.total
       })
-      .addCase(deleteOrganization.fulfilled, (state, action) => {
+      .addCase(deleteClient.fulfilled, (state, action) => {
         state.data = action.payload?.items
         state.total = action.payload?.total
       })
   }
 })
 
-export default organizationSlice.reducer
+export default clientSlice.reducer
