@@ -5,6 +5,8 @@ import AccountSupervisor from 'mdi-material-ui/AccountSupervisor'
 import Shape from 'mdi-material-ui/Shape'
 import BagChecked from 'mdi-material-ui/BagChecked'
 import StoreSettings from 'mdi-material-ui/StoreSettings'
+import Unicode from 'mdi-material-ui/Unicode'
+
 
 const navigation = () => [
   {
@@ -34,7 +36,12 @@ const navigation = () => [
       {
         icon: StoreSettings,
         title: 'Shop',
-        path: '/basic/shop'
+        path: '/basic/spot'
+      },
+      {
+        icon: Unicode,
+        title: 'Unit',
+        path: '/basic/unit'
       }
     ]
   }

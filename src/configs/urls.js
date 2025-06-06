@@ -9,5 +9,6 @@ export default {
     client: `${BASEURL}/client`,
     category: `${BASEURL}/category`,
     product: `${BASEURL}/product`,
-    shop: `${BASEURL}/spot`
+    spot: `${BASEURL}/spot`,
+    unit: `${BASEURL}/unit`,
 }
