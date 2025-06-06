@@ -12,7 +12,7 @@ import { useAuth } from 'src/hooks/useAuth'
 
 export const getHomeRoute = role => {
   if (parseInt(role) > 0) return '/acl'
-  else return '/home'
+  else return '/basic/organization'
 }
 
 const Home = () => {

@@ -1,25 +1,42 @@
 // ** Icon imports
-import HomeOutline from 'mdi-material-ui/HomeOutline'
-import EmailOutline from 'mdi-material-ui/EmailOutline'
-import ShieldOutline from 'mdi-material-ui/ShieldOutline'
+import DatabaseSettings from 'mdi-material-ui/DatabaseSettings'
+import AccountGroup from 'mdi-material-ui/AccountGroup'
+import AccountSupervisor from 'mdi-material-ui/AccountSupervisor'
+import Shape from 'mdi-material-ui/Shape'
+import BagChecked from 'mdi-material-ui/BagChecked'
+import StoreSettings from 'mdi-material-ui/StoreSettings'
 
 const navigation = () => [
   {
-    title: 'Home',
-    icon: HomeOutline,
-    path: '/home'
-  },
-  {
-    title: 'Second Page',
-    icon: EmailOutline,
-    path: '/second-page'
-  },
-  {
-    title: 'Access Control',
-    icon: ShieldOutline,
-    path: '/acl',
-    action: 'read',
-    subject: 'acl-page'
+    title: 'Basic Data',
+    icon: DatabaseSettings,
+    children: [
+      {
+        icon: AccountGroup,
+        title: 'Organization',
+        path: '/basic/organization'
+      },
+      {
+        icon: AccountSupervisor,
+        title: 'Client',
+        path: '/basic/client'
+      },
+      {
+        icon: Shape,
+        title: 'Category',
+        path: '/basic/category'
+      },
+      {
+        icon: BagChecked,
+        title: 'Product',
+        path: '/basic/product'
+      },
+      {
+        icon: StoreSettings,
+        title: 'Shop',
+        path: '/basic/shop'
+      }
+    ]
   }
 ]
 
