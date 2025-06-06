@@ -11,7 +11,7 @@ import Spinner from 'src/@core/components/spinner'
 import { useAuth } from 'src/hooks/useAuth'
 
 export const getHomeRoute = role => {
-  if (role === 'client') return '/acl'
+  if (parseInt(role) > 0) return '/acl'
   else return '/home'
 }
 
@@ -25,7 +25,7 @@ const Home = () => {
       return
     }
 
-    if (auth.user && auth.user.role) {
+    if (auth.user && !isNaN(auth.user.role)) {
       const homeRoute = getHomeRoute(auth.user.role)
 
       // Redirect user to Home URL

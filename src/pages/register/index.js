@@ -44,15 +44,13 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }))
 
 const schema = yup.object().shape({
-  fullname: yup.string().min(3).required(),
-  username: yup.string().min(3).required(),
+  name: yup.string().min(3).required(),
   password: yup.string().min(5).required()
 })
 
 const defaultValues = {
-  fullname: 'Silas Jones',
-  password: 'Silas@1126!',
-  username: 'starmastar1126'
+  password: 'admin123',
+  name: 'admin'
 }
 
 const Register = () => {
@@ -76,18 +74,12 @@ const Register = () => {
   })
 
   const onSubmit = data => {
-    const { fullname, username, password } = data
-    register({ fullname, username, password }, err => {
-      if (err.fullname) {
-        setError('fullname', {
+    const { name, password } = data
+    register({ name, password }, err => {
+      if (err.name) {
+        setError('name', {
           type: 'manual',
-          message: err.fullname
-        })
-      }
-      if (err.username) {
-        setError('username', {
-          type: 'manual',
-          message: err.username
+          message: err.name
         })
       }
     })
@@ -181,7 +173,7 @@ const Register = () => {
           <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
             <FormControl fullWidth sx={{ mb: 4 }}>
               <Controller
-                name='username'
+                name='name'
                 control={control}
                 rules={{ required: true }}
                 render={({ field: { value, onChange, onBlur } }) => (
@@ -189,34 +181,16 @@ const Register = () => {
                     autoFocus
                     value={value}
                     onBlur={onBlur}
-                    label='Username'
+                    label='Name'
                     onChange={onChange}
                     placeholder='starmastar1126'
-                    error={Boolean(errors.username)}
+                    error={Boolean(errors.name)}
                   />
                 )}
               />
-              {errors.username && (
-                <FormHelperText sx={{ color: 'error.main' }}>{errors.username.message}</FormHelperText>
+              {errors.name && (
+                <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>
               )}
-            </FormControl>
-            <FormControl fullWidth sx={{ mb: 4 }}>
-              <Controller
-                name='fullname'
-                control={control}
-                rules={{ required: true }}
-                render={({ field: { value, onChange, onBlur } }) => (
-                  <TextField
-                    value={value}
-                    label='Full Name'
-                    onBlur={onBlur}
-                    onChange={onChange}
-                    error={Boolean(errors.fullname)}
-                    placeholder='Silas Jones'
-                  />
-                )}
-              />
-              {errors.fullname && <FormHelperText sx={{ color: 'error.main' }}>{errors.fullname.message}</FormHelperText>}
             </FormControl>
             <FormControl fullWidth>
               <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>

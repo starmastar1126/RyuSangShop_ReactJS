@@ -44,13 +44,13 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }))
 
 const schema = yup.object().shape({
-  username: yup.string().min(3).required(),
+  name: yup.string().min(3).required(),
   password: yup.string().min(5).required()
 })
 
 const defaultValues = {
-  password: 'Silas@1126!',
-  username: 'starmastar1126'
+  password: 'admin123',
+  name: 'admin'
 }
 
 const Login = () => {
@@ -74,11 +74,11 @@ const Login = () => {
   })
 
   const onSubmit = data => {
-    const { username, password } = data
-    auth.login({ username, password }, () => {
-      setError('username', {
+    const { name, password } = data
+    auth.login({ name, password }, () => {
+      setError('name', {
         type: 'manual',
-        message: 'Username or Password is invalid'
+        message: 'Name or Password is invalid'
       })
     })
   }
@@ -171,22 +171,22 @@ const Login = () => {
           <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
             <FormControl fullWidth sx={{ mb: 4 }}>
               <Controller
-                name='username'
+                name='name'
                 control={control}
                 rules={{ required: true }}
                 render={({ field: { value, onChange, onBlur } }) => (
                   <TextField
                     autoFocus
-                    label='Username'
+                    label='Name'
                     value={value}
                     onBlur={onBlur}
                     onChange={onChange}
-                    error={Boolean(errors.username)}
+                    error={Boolean(errors.name)}
                     placeholder='starmastar1126'
                   />
                 )}
               />
-              {errors.username && <FormHelperText sx={{ color: 'error.main' }}>{errors.username.message}</FormHelperText>}
+              {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
             </FormControl>
             <FormControl fullWidth>
               <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
