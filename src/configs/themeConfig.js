@@ -9,13 +9,13 @@ import Circle from 'mdi-material-ui/Circle'
 
 const themeConfig = {
   // ** Layout Configs
-  templateName: 'Materialize' /* App Name */,
-  layout: 'vertical' /* vertical | horizontal */,
+  templateName: 'RyuSang' /* App Name */,
+  layout: 'horizontal' /* vertical | horizontal */,
   mode: 'light' /* light | dark */,
   direction: 'ltr' /* ltr | rtl */,
   skin: 'default' /* default | bordered | semi-dark /*! Note: semi-dark value will only work for Vertical Layout */,
   contentWidth: 'boxed' /* full | boxed */,
-  footer: 'static' /* fixed | static | hidden */,
+  footer: 'hidden' /* fixed | static | hidden */,
   // ** Routing Configs
   routingLoader: true /* true | false */,
   // ** Navigation (Menu) Configs
@@ -36,7 +36,7 @@ const themeConfig = {
   // ** Other Configs
   responsiveFontSizes: true /* true | false */,
   disableRipple: false /* true | false */,
-  disableCustomizer: true /* true | false */,
+  disableCustomizer: false /* true | false */,
   toastPosition: 'top-right' /* top-left | top-center | top-right | bottom-left | bottom-center | bottom-right */
 }
 
