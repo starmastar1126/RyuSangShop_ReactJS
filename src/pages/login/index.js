@@ -78,7 +78,7 @@ const Login = () => {
     auth.login({ name, password }, () => {
       setError('name', {
         type: 'manual',
-        message: 'Name or Password is invalid'
+        message: 'name or password is invalid'
       })
     })
   }
