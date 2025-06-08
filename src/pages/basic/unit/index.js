@@ -102,15 +102,15 @@ const Unit = () => {
     setSearch(value)
   }
 
-  const handleEdit = (one) => {
-    setSelected(one)
+  const handleEdit = (unit) => {
+    setSelected(unit)
     setButton('Save')
     setCancel(true)
-    reset({ id: one.id, name: one.name })
+    reset({ id: unit.id, name: unit.name })
   }
 
-  const handleOpen = (one) => {
-    setSelected(one)
+  const handleOpen = (unit) => {
+    setSelected(unit)
     setOpen(true)
   }
 
@@ -128,7 +128,6 @@ const Unit = () => {
     {
       flex: 0.1,
       field: 'id',
-      minWidth: 50,
       headerName: '#',
       renderCell: ({ row }) => (
         <Typography
@@ -141,9 +140,8 @@ const Unit = () => {
       )
     },
     {
-      flex: 1.5,
+      flex: 1.0,
       field: 'name',
-      minWidth: 300,
       headerName: 'Unit Name',
       renderCell: ({ row }) => (
         <Typography
@@ -157,7 +155,6 @@ const Unit = () => {
     },
     {
       flex: 0.1,
-      minWidth: 100,
       sortable: false,
       field: 'actions',
       headerName: '@',
@@ -187,7 +184,7 @@ const Unit = () => {
             <CardContent>
               <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
                 <Grid container spacing={5}>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={4}>
                     <FormControl fullWidth>
                       <Controller
                         name='name'
@@ -206,7 +203,7 @@ const Unit = () => {
                       />
                     </FormControl>
                   </Grid>
-                  <Grid item xs={12} sm={6} >
+                  <Grid item xs={12} sm={8} >
                     <Button size='middle' type='submit' variant='contained'>
                       {button}
                     </Button>

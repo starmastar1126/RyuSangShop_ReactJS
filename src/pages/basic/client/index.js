@@ -67,8 +67,8 @@ const Client = () => {
   } = useForm({
     defaultValues: {
       id: 0,
-      name: '',
-      organization: null
+      organization: null,
+      name: ''
     },
     mode: 'onBlur',
     resolver: yupResolver(schema)
@@ -91,11 +91,11 @@ const Client = () => {
     setSelected(null)
     setButton('Add')
     setCancel(false)
-    reset({ id: 0, name: '', organization: null })
+    reset({ id: 0, organization: null, name: '' })
   }
 
   const onSubmit = data => {
-    const { id, name, organization } = data
+    const { id, organization, name } = data
 
     if (organization) {
       const payload = {
@@ -126,11 +126,11 @@ const Client = () => {
 
     reset({
       id: client.id,
-      name: client.name,
       organization: {
         id: client.orgId,
         name: client.orgName
-      }
+      },
+      name: client.name
     })
   }
 
@@ -153,7 +153,6 @@ const Client = () => {
     {
       flex: 0.1,
       field: 'id',
-      minWidth: 50,
       headerName: '#',
       renderCell: ({ row }) => (
         <Typography
@@ -166,9 +165,8 @@ const Client = () => {
       )
     },
     {
-      flex: 1,
+      flex: 0.5,
       field: 'organization',
-      minWidth: 300,
       headerName: 'Organization Name',
       renderCell: ({ row }) => (
         <Typography
@@ -183,7 +181,6 @@ const Client = () => {
     {
       flex: 0.5,
       field: 'name',
-      minWidth: 200,
       headerName: 'Client Name',
       renderCell: ({ row }) => (
         <Typography
@@ -197,7 +194,6 @@ const Client = () => {
     },
     {
       flex: 0.1,
-      minWidth: 100,
       sortable: false,
       field: 'actions',
       headerName: '@',
@@ -227,7 +223,7 @@ const Client = () => {
             <CardContent>
               <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
                 <Grid container spacing={5}>
-                  <Grid item xs={12} sm={3}>
+                  <Grid item xs={12} sm={4}>
                     <FormControl fullWidth>
                       <Controller
                         name='organization'
@@ -260,7 +256,7 @@ const Client = () => {
                       />
                     </FormControl>
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={4}>
                     <FormControl fullWidth>
                       <Controller
                         name='name'
@@ -279,7 +275,7 @@ const Client = () => {
                       />
                     </FormControl>
                   </Grid>
-                  <Grid item xs={12} sm={3} >
+                  <Grid item xs={12} sm={4} >
                     <Button size='middle' type='submit' variant='contained'>
                       {button}
                     </Button>
