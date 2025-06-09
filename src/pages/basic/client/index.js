@@ -117,18 +117,21 @@ const Client = () => {
   }
 
   const handleEdit = (client) => {
-    setSelected(client)
-    setButton('Save')
-    setCancel(true)
+    handleCancel()
+    setTimeout(() => {
+      setSelected(client)
+      setButton('Save')
+      setCancel(true)
 
-    reset({
-      id: client.id,
-      organization: {
-        id: client.orgId,
-        name: client.orgName
-      },
-      name: client.name
-    })
+      reset({
+        id: client.id,
+        organization: {
+          id: client.orgId,
+          name: client.orgName
+        },
+        name: client.name
+      })
+    }, 100)
   }
 
   const handleOpen = (client) => {

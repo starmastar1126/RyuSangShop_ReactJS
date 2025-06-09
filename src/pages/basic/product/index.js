@@ -144,29 +144,32 @@ const Product = () => {
   }
 
   const handleEdit = (product) => {
-    setSelected(product)
-    setButton('Save')
-    setCancel(true)
+    handleCancel()
+    setTimeout(() => {
+      setSelected(product)
+      setButton('Save')
+      setCancel(true)
 
-    reset({
-      id: product.id,
-      spot: {
-        id: product.spotId,
-        name: product.spotName
-      },
-      category: {
-        id: product.categoryId,
-        name: product.categoryName
-      },
-      name: product.name,
-      cost: product.cost,
-      price: product.price,
-      unit: {
-        id: product.unitId,
-        name: product.unitName
-      },
-      note: product.note
-    })
+      reset({
+        id: product.id,
+        spot: {
+          id: product.spotId,
+          name: product.spotName
+        },
+        category: {
+          id: product.categoryId,
+          name: product.categoryName
+        },
+        name: product.name,
+        cost: product.cost,
+        price: product.price,
+        unit: {
+          id: product.unitId,
+          name: product.unitName
+        },
+        note: product.note
+      })
+    }, 100)
   }
 
   const handleOpen = (product) => {
