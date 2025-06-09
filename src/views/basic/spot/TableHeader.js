@@ -1,5 +1,5 @@
 // ** MUI Imports
-import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 
 const TableHeader = props => {
@@ -7,27 +7,17 @@ const TableHeader = props => {
   const { value, handleSearch } = props
 
   return (
-    <Box
-      sx={{
-        p: 5,
-        pb: 3,
-        width: '100%',
-        display: 'flex',
-        flexWrap: 'wrap',
-        alignItems: 'center',
-        justifyContent: 'space-between'
-      }}
-    >
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+    <Grid container spacing={10}>
+      <Grid item xs={12} sm={4}>
         <TextField
           size='small'
           value={value}
           placeholder='Search Spot'
-          sx={{ mr: 4, mb: 2, maxWidth: '500px' }}
+          sx={{ ml: 5, mt: 5, mb: 5, width: '100%' }}
           onChange={e => handleSearch(e.target.value)}
         />
-      </Box>
-    </Box>
+      </Grid>
+    </Grid>
   )
 }
 
