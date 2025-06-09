@@ -56,7 +56,6 @@ const Product = () => {
   // ** State
   const [search, setSearch] = useState('')
   const [pageSize, setPageSize] = useState(10)
-  const [selectedRows, setSelectedRows] = useState([])
   const [open, setOpen] = useState(false)
   const [selected, setSelected] = useState(null)
   const [button, setButton] = useState('Add')
@@ -148,8 +147,6 @@ const Product = () => {
     setSelected(product)
     setButton('Save')
     setCancel(true)
-
-    // const category = categories.data.find(category => category.id === product.categoryId) || null
 
     reset({
       id: product.id,
@@ -525,7 +522,7 @@ const Product = () => {
         </Grid>
         <Grid item xs={12}>
           <Card>
-            <TableHeader value={search} selectedRows={selectedRows} handleSearch={handleSearch} />
+            <TableHeader value={search} handleSearch={handleSearch} />
             <DataGrid
               autoHeight
               pagination
@@ -535,7 +532,6 @@ const Product = () => {
               pageSize={Number(pageSize)}
               rowsPerPageOptions={[10, 25, 50]}
               sx={{ '& .MuiDataGrid-columnHeaders': { borderRadius: 0 } }}
-              onSelectionModelChange={rows => setSelectedRows(rows)}
               onPageSizeChange={newPageSize => setPageSize(newPageSize)}
             />
           </Card>

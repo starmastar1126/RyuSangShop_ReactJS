@@ -50,7 +50,6 @@ const Organization = () => {
   // ** State
   const [search, setSearch] = useState('')
   const [pageSize, setPageSize] = useState(10)
-  const [selectedRows, setSelectedRows] = useState([])
   const [open, setOpen] = useState(false)
   const [selected, setSelected] = useState(null)
   const [button, setButton] = useState('Add')
@@ -220,7 +219,7 @@ const Organization = () => {
         </Grid>
         <Grid item xs={12}>
           <Card>
-            <TableHeader value={search} selectedRows={selectedRows} handleSearch={handleSearch} />
+            <TableHeader value={search} handleSearch={handleSearch} />
             <DataGrid
               autoHeight
               pagination
@@ -230,7 +229,6 @@ const Organization = () => {
               pageSize={Number(pageSize)}
               rowsPerPageOptions={[10, 25, 50]}
               sx={{ '& .MuiDataGrid-columnHeaders': { borderRadius: 0 } }}
-              onSelectionModelChange={rows => setSelectedRows(rows)}
               onPageSizeChange={newPageSize => setPageSize(newPageSize)}
             />
           </Card>
