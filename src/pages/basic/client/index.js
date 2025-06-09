@@ -228,7 +228,7 @@ const Client = () => {
                       <Controller
                         name='organization'
                         control={control}
-                        render={({ field: { onChange, value, onBlur, ref } }) => (
+                        render={({ field: { value, onChange, onBlur, ref } }) => (
                           <Autocomplete
                             size='small'
                             autoSelect

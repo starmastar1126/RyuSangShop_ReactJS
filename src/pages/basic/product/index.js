@@ -336,7 +336,7 @@ const Product = () => {
                       <Controller
                         name='spot'
                         control={control}
-                        render={({ field: { onChange, value, onBlur, ref } }) => (
+                        render={({ field: { value, onChange, onBlur, ref } }) => (
                           <Autocomplete
                             size='small'
                             autoSelect
@@ -369,7 +369,7 @@ const Product = () => {
                       <Controller
                         name='category'
                         control={control}
-                        render={({ field: { onChange, value, onBlur, ref } }) => (
+                        render={({ field: { value, onChange, onBlur, ref } }) => (
                           <Autocomplete
                             size='small'
                             autoSelect
@@ -461,7 +461,7 @@ const Product = () => {
                       <Controller
                         name='unit'
                         control={control}
-                        render={({ field: { onChange, value, onBlur, ref } }) => (
+                        render={({ field: { value, onChange, onBlur, ref } }) => (
                           <Autocomplete
                             size='small'
                             autoSelect
