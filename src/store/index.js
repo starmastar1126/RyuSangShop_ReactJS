@@ -8,6 +8,7 @@ import category from 'src/store/basic/category'
 import product from 'src/store/basic/product'
 import spot from 'src/store/basic/spot'
 import unit from 'src/store/basic/unit'
+import input from 'src/store/input'
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
     product,
     spot,
     unit,
+    input,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

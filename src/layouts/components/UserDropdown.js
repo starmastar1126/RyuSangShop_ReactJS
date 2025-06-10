@@ -116,12 +116,12 @@ const UserDropdown = props => {
                 flexDirection: 'column'
               }}
             >
-              <Typography sx={{ fontWeight: 600 }}>Silas Jones</Typography>
+              <Typography sx={{ fontWeight: 600 }}>{window.localStorage.getItem('userData')?.name}</Typography>
               <Typography
                 variant='body2'
                 sx={{ fontSize: '0.8rem', color: 'text.disabled' }}
               >
-                Admin
+                {window.localStorage.getItem('userData')?.role === 0 ? 'Admin' : 'Seller'}
               </Typography>
             </Box>
           </Box>

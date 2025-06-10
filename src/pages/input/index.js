@@ -21,6 +21,8 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContentText from '@mui/material/DialogContentText'
 import Autocomplete from '@mui/material/Autocomplete'
+import DatePicker from 'react-datepicker'
+import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
 // ** Icons Imports
 import PencilOutline from 'mdi-material-ui/PencilOutline'
@@ -30,47 +32,44 @@ import DeleteOutline from 'mdi-material-ui/DeleteOutline'
 import * as yup from 'yup'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import format from 'date-fns/format'
 
 // ** Store & Actions Imports
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchSpot } from 'src/store/basic/spot'
-import { fetchCategory } from 'src/store/basic/category'
-import { fetchUnit } from 'src/store/basic/unit'
+import { fetchProduct } from 'src/store/basic/product'
 import {
-  fetchProduct,
-  addProduct,
-  editProduct,
-  deleteProduct
-} from 'src/store/basic/product'
+  fetchInput,
+  addInput,
+  editInput,
+  deleteInput
+} from 'src/store/input'
 
 // ** Custom Components Imports
-import TableHeader from 'src/views/basic/product/TableHeader'
+import TableHeader from 'src/views/input/TableHeader'
+import CustomInput from 'src/views/input/CustomInput'
 
 const schema = yup.object().shape({
-  // spot: yup.object().required('Spot is required'),
-  // category: yup.object().required('Category is required'),
-  name: yup.string().required('Product Name is required'),
-  cost: yup.number()
-    .typeError('Cost must be a number')
-    .positive('Cost must be greater than zero')
-    .required('Cost is required'),
-  price: yup.number()
-    .typeError('Price must be a number')
-    .positive('Price must be greater than zero')
-    .required('Price is required'),
-  // unit: yup.object().required('Unit is required'),
+  date: yup.date().required(),
+  // product: yup.object().required('Product is required'),
+  quantity: yup.number().required()
+    .typeError('Quantity must be a number')
+    .positive('Quantity must be greater than zero')
+    .required('Quantity is required'),
   note: yup.string()
 })
 
 /* eslint-enable */
-const Product = () => {
+const InputList = () => {
   // ** State
   const [search, setSearch] = useState('')
+  const [fromDate, setFromDate] = useState(new Date())
+  const [toDate, setToDate] = useState(new Date())
   const [pageSize, setPageSize] = useState(10)
   const [open, setOpen] = useState(false)
   const [selected, setSelected] = useState(null)
   const [button, setButton] = useState('Add')
   const [cancel, setCancel] = useState(false)
+  const [current, setCurrent] = useState(new Date())
 
   // ** Vars
   const {
@@ -81,13 +80,10 @@ const Product = () => {
   } = useForm({
     defaultValues: {
       id: 0,
-      spot: null,
-      category: null,
-      name: '',
-      cost: 0,
-      price: 0,
-      unit: null,
-      note: '',
+      date: current,
+      product: null,
+      quantity: 0,
+      note: ''
     },
     mode: 'onBlur',
     resolver: yupResolver(schema)
@@ -95,96 +91,29 @@ const Product = () => {
 
   // ** Hooks
   const dispatch = useDispatch()
-  const store = useSelector(state => state.product)
-  const spots = useSelector(state => state.spot)
-  const categories = useSelector(state => state.category)
-  const units = useSelector(state => state.unit)
+  const store = useSelector(state => state.input)
+  const products = useSelector(state => state.product)
 
   useEffect(() => {
-    dispatch(fetchSpot({ search: '' }))
-    dispatch(fetchCategory({ search: '' }))
-    dispatch(fetchUnit({ search: '' }))
+    dispatch(fetchProduct({ search: '' }))
   }, [])
 
   useEffect(() => {
-    dispatch(fetchProduct({ search }))
-  }, [dispatch, search])
+    dispatch(fetchInput({ fromDate, toDate, search }))
+  }, [dispatch, fromDate, toDate, search])
 
-  const handleCancel = () => {
-    setSelected(null)
-    setButton('Add')
-    setCancel(false)
-    reset({
-      id: 0,
-      spot: null,
-      category: null,
-      name: '',
-      cost: 0,
-      price: 0,
-      unit: null,
-      note: ''
-    })
-  }
-
-  const onSubmit = data => {
-    const { id, spot, category, name, cost, price, unit, note } = data
-
-    if (spot && category && name && cost && price && unit) {
-      const payload = {
-        spotId: spot?.id || null,
-        categoryId: category?.id || null,
-        name,
-        cost,
-        price,
-        unitId: unit?.id || null,
-        note
-      }
-
-      if (!cancel)
-        dispatch(addProduct(payload))
-      else
-        dispatch(editProduct({ id, ...payload }))
-
-      setSearch('')
-      handleCancel()
-    }
+  const handleDates = dates => {
+    const [start, end] = dates
+    setFromDate(start)
+    setToDate(end)
   }
 
   const handleSearch = value => {
     setSearch(value)
   }
 
-  const handleEdit = (product) => {
-    handleCancel()
-    setTimeout(() => {
-      setSelected(product)
-      setButton('Save')
-      setCancel(true)
-
-      reset({
-        id: product.id,
-        spot: {
-          id: product.spotId,
-          name: product.spotName
-        },
-        category: {
-          id: product.categoryId,
-          name: product.categoryName
-        },
-        name: product.name,
-        cost: product.cost,
-        price: product.price,
-        unit: {
-          id: product.unitId,
-          name: product.unitName
-        },
-        note: product.note
-      })
-    }, 100)
-  }
-
-  const handleOpen = (product) => {
-    setSelected(product)
+  const handleOpen = (input) => {
+    setSelected(input)
     setOpen(true)
   }
 
@@ -193,9 +122,63 @@ const Product = () => {
   }
 
   const handleDelete = () => {
-    dispatch(deleteProduct({ id: selected.id, search }))
+    dispatch(deleteInput({ id: selected.id, fromDate, toDate, search }))
     setOpen(false)
     handleCancel()
+  }
+
+  const handleCancel = () => {
+    setSelected(null)
+    setButton('Add')
+    setCancel(false)
+    reset({
+      id: 0,
+      date: current,
+      product: null,
+      quantity: 0,
+      note: ''
+    })
+  }
+
+  const onSubmit = data => {
+    const { id, date, product, quantity, note } = data
+    setCurrent(date)
+
+    if (date && product && quantity) {
+      const payload = {
+        date: format(date, 'yyyy-MM-dd'),
+        productId: product?.id || null,
+        quantity,
+        note
+      }
+
+      if (!cancel)
+        dispatch(addInput(payload))
+      else
+        dispatch(editInput({ id, ...payload }))
+
+      setSearch('')
+      handleCancel()
+    }
+  }
+
+  const handleEdit = (input) => {
+    handleCancel()
+    setTimeout(() => {
+      setSelected(input)
+      setButton('Save')
+      setCancel(true)
+      reset({
+        id: input.id,
+        date: new Date(input.date),
+        product: {
+          id: input.productId,
+          name: input.productName
+        },
+        quantity: input.quantity,
+        note: input.note
+      })
+    }, 100)
   }
 
   const columns = [
@@ -214,21 +197,21 @@ const Product = () => {
       )
     },
     {
-      flex: 0.2,
-      field: 'spot',
-      headerName: 'Spot Name',
+      flex: 0.15,
+      field: 'date',
+      headerName: 'Input Date',
       renderCell: ({ row }) => (
         <Typography
           noWrap
           variant='body2'
           sx={{ color: 'text.primary', fontWeight: 500, lineHeight: '22px', letterSpacing: '.1px' }}
         >
-          {row.spotName}
+          {row.date}
         </Typography>
       )
     },
     {
-      flex: 0.2,
+      flex: 0.15,
       field: 'category',
       headerName: 'Category Name',
       renderCell: ({ row }) => (
@@ -242,8 +225,8 @@ const Product = () => {
       )
     },
     {
-      flex: 0.4,
-      field: 'name',
+      flex: 0.2,
+      field: 'product',
       headerName: 'Product Name',
       renderCell: ({ row }) => (
         <Typography
@@ -251,7 +234,7 @@ const Product = () => {
           variant='body2'
           sx={{ color: 'text.primary', fontWeight: 500, lineHeight: '22px', letterSpacing: '.1px' }}
         >
-          {row.name}
+          {row.productName}
         </Typography>
       )
     },
@@ -285,6 +268,20 @@ const Product = () => {
     },
     {
       flex: 0.1,
+      field: 'quantity',
+      headerName: 'Quantity',
+      renderCell: ({ row }) => (
+        <Typography
+          noWrap
+          variant='body2'
+          sx={{ color: 'text.primary', fontWeight: 500, lineHeight: '22px', letterSpacing: '.1px' }}
+        >
+          {row.quantity}
+        </Typography>
+      )
+    },
+    {
+      flex: 0.1,
       field: 'unit',
       headerName: 'Unit',
       renderCell: ({ row }) => (
@@ -298,7 +295,21 @@ const Product = () => {
       )
     },
     {
-      flex: 0.2,
+      flex: 0.1,
+      field: 'total',
+      headerName: 'Total',
+      renderCell: ({ row }) => (
+        <Typography
+          noWrap
+          variant='body2'
+          sx={{ color: 'text.primary', fontWeight: 500, lineHeight: '22px', letterSpacing: '.1px' }}
+        >
+          {row.total}
+        </Typography>
+      )
+    },
+    {
+      flex: 0.1,
       field: 'note',
       headerName: 'Note',
       renderCell: ({ row }) => (
@@ -313,17 +324,31 @@ const Product = () => {
     },
     {
       flex: 0.1,
+      field: 'username',
+      headerName: 'Username',
+      renderCell: ({ row }) => (
+        <Typography
+          noWrap
+          variant='body2'
+          sx={{ color: 'text.primary', fontWeight: 500, lineHeight: '22px', letterSpacing: '.1px' }}
+        >
+          {row.userName}
+        </Typography>
+      )
+    },
+    {
+      flex: 0.1,
       sortable: false,
       field: 'actions',
       headerName: '@',
       renderCell: ({ row }) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Tooltip title='Edit Product'>
+          <Tooltip title='Edit Input'>
             <IconButton size='small' sx={{ mr: 0.5 }} onClick={() => handleEdit(row)}>
               <PencilOutline />
             </IconButton>
           </Tooltip>
-          <Tooltip title='Delete Product'>
+          <Tooltip title='Delete Input'>
             <IconButton size='small' sx={{ mr: 0.5 }} onClick={() => handleOpen(row)}>
               <DeleteOutline />
             </IconButton>
@@ -337,27 +362,47 @@ const Product = () => {
     <Fragment>
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          <Card>
-            <CardHeader title='Manage Product' />
+          <Card sx={{ overflow: 'visible' }}>
+            <CardHeader title='Manage Input' />
             <CardContent>
               <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
                 <Grid container spacing={5}>
                   <Grid item xs={12} sm={2}>
                     <FormControl fullWidth>
                       <Controller
-                        name='spot'
+                        name='date'
+                        control={control}
+                        render={({ field: { value, onChange, onBlur, ref } }) => (
+                          <DatePickerWrapper>
+                            <DatePicker
+                              selected={value}
+                              id='date'
+                              dateFormat='yyyy-MM-dd'
+                              onChange={onChange}
+                              onBlur={onBlur}
+                              customInput={<CustomInput label='Date' />}
+                            />
+                          </DatePickerWrapper>
+                        )}
+                      />
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <FormControl fullWidth>
+                      <Controller
+                        name='product'
                         control={control}
                         render={({ field: { value, onChange, onBlur, ref } }) => (
                           <Autocomplete
                             size='small'
                             autoSelect
-                            options={spots?.data || []}
+                            options={products?.data || []}
                             getOptionLabel={option => option?.name || ''}
                             isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                             value={value ?? null}
                             onChange={(e, newVal) => onChange(newVal ?? null)}
                             onBlur={() => {
-                              if (!value || !spots.data.find(o => o.id === value.id)) {
+                              if (!value || !products.data.find(o => o.id === value.id)) {
                                 onChange(null)
                               }
                               onBlur()
@@ -366,8 +411,8 @@ const Product = () => {
                               <TextField
                                 {...params}
                                 inputRef={ref}
-                                label='Spot'
-                                placeholder='Select Spot'
+                                label='Product'
+                                placeholder='Select Product'
                               />
                             )}
                           />
@@ -378,70 +423,16 @@ const Product = () => {
                   <Grid item xs={12} sm={2}>
                     <FormControl fullWidth>
                       <Controller
-                        name='category'
-                        control={control}
-                        render={({ field: { value, onChange, onBlur, ref } }) => (
-                          <Autocomplete
-                            size='small'
-                            autoSelect
-                            options={categories?.data || []}
-                            getOptionLabel={option => option?.name || ''}
-                            isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                            value={value ?? null}
-                            onChange={(e, newVal) => onChange(newVal ?? null)}
-                            onBlur={() => {
-                              if (!value || !categories.data.find(o => o.id === value.id)) {
-                                onChange(null)
-                              }
-                              onBlur()
-                            }}
-                            renderInput={params => (
-                              <TextField
-                                {...params}
-                                inputRef={ref}
-                                label='Category'
-                                placeholder='Select Category'
-                              />
-                            )}
-                          />
-                        )}
-                      />
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={12} sm={2}>
-                    <FormControl fullWidth>
-                      <Controller
-                        name='name'
+                        name='quantity'
                         control={control}
                         rules={{ required: true }}
                         render={({ field: { value, onChange, onBlur } }) => (
                           <TextField
+                            label='Quantity'
                             size='small'
                             autoFocus
                             value={value}
-                            placeholder='Enter Product'
-                            onBlur={onBlur}
-                            onChange={onChange}
-                            error={Boolean(errors.name)}
-                          />
-                        )}
-                      />
-                      {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={12} sm={1}>
-                    <FormControl fullWidth>
-                      <Controller
-                        name='cost'
-                        control={control}
-                        rules={{ required: true }}
-                        render={({ field: { value, onChange, onBlur } }) => (
-                          <TextField
-                            label='Cost'
-                            size='small'
-                            autoFocus
-                            value={value}
-                            placeholder='Enter Cost'
+                            placeholder='Enter Quantity'
                             onBlur={onBlur}
                             onChange={onChange}
                             onKeyDown={(e) => {
@@ -453,78 +444,14 @@ const Product = () => {
                                 e.preventDefault()
                               }
                             }}
-                            error={Boolean(errors.cost)}
+                            error={Boolean(errors.quantity)}
                           />
                         )}
                       />
-                      {errors.cost && <FormHelperText sx={{ color: 'error.main' }}>{errors.cost.message}</FormHelperText>}
+                      {errors.quantity && <FormHelperText sx={{ color: 'error.main' }}>{errors.quantity.message}</FormHelperText>}
                     </FormControl>
                   </Grid>
-                  <Grid item xs={12} sm={1}>
-                    <FormControl fullWidth>
-                      <Controller
-                        name='price'
-                        control={control}
-                        rules={{ required: true }}
-                        render={({ field: { value, onChange, onBlur } }) => (
-                          <TextField
-                            label='Price'
-                            size='small'
-                            autoFocus
-                            value={value}
-                            placeholder='Enter Price'
-                            onBlur={onBlur}
-                            onChange={onChange}
-                            onKeyDown={(e) => {
-                              const allowedKeys = [
-                                'Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', '.', // allow decimal
-                              ]
-                              const isNumber = /^[0-9]$/.test(e.key)
-                              if (!isNumber && !allowedKeys.includes(e.key)) {
-                                e.preventDefault()
-                              }
-                            }}
-                            error={Boolean(errors.price)}
-                          />
-                        )}
-                      />
-                      {errors.price && <FormHelperText sx={{ color: 'error.main' }}>{errors.price.message}</FormHelperText>}
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={12} sm={1}>
-                    <FormControl fullWidth>
-                      <Controller
-                        name='unit'
-                        control={control}
-                        render={({ field: { value, onChange, onBlur, ref } }) => (
-                          <Autocomplete
-                            size='small'
-                            autoSelect
-                            options={units?.data || []}
-                            getOptionLabel={option => option?.name || ''}
-                            isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                            value={value ?? null}
-                            onChange={(e, newVal) => onChange(newVal ?? null)}
-                            onBlur={() => {
-                              if (!value || !units.data.find(o => o.id === value.id)) {
-                                onChange(null)
-                              }
-                              onBlur()
-                            }}
-                            renderInput={params => (
-                              <TextField
-                                {...params}
-                                inputRef={ref}
-                                label='Unit'
-                                placeholder='Select Unit'
-                              />
-                            )}
-                          />
-                        )}
-                      />
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={12} sm={1}>
+                  <Grid item xs={12} sm={2}>
                     <FormControl fullWidth>
                       <Controller
                         name='note'
@@ -560,7 +487,13 @@ const Product = () => {
         </Grid>
         <Grid item xs={12}>
           <Card>
-            <TableHeader value={search} handleSearch={handleSearch} />
+            <TableHeader
+              value={search}
+              fromDate={fromDate}
+              toDate={toDate}
+              handleDates={handleDates}
+              handleSearch={handleSearch}
+            />
             <DataGrid
               autoHeight
               pagination
@@ -576,10 +509,10 @@ const Product = () => {
         </Grid>
       </Grid>
       <Dialog open={open} onClose={handleClose} aria-labelledby='form-dialog-title'>
-        <DialogTitle id='form-dialog-title'>Delete Product</DialogTitle>
+        <DialogTitle id='form-dialog-title'>Delete Input</DialogTitle>
         <DialogContent>
           <DialogContentText sx={{ mb: 3 }}>
-            Really Delete This Product?
+            Really Delete This Input?
           </DialogContentText>
         </DialogContent>
         <DialogActions className='dialog-actions-dense'>
@@ -591,4 +524,4 @@ const Product = () => {
   )
 }
 
-export default Product
+export default InputList

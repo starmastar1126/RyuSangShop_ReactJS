@@ -12,6 +12,7 @@ import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import { DataGrid } from '@mui/x-data-grid'
 import FormControl from '@mui/material/FormControl'
+import FormHelperText from '@mui/material/FormHelperText'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
@@ -42,7 +43,7 @@ import {
 import TableHeader from 'src/views/basic/spot/TableHeader'
 
 const schema = yup.object().shape({
-  name: yup.string().min(1).required()
+  name: yup.string().required('Spot Name is required')
 })
 
 /* eslint-enable */
@@ -194,12 +195,14 @@ const Spot = () => {
                             size='small'
                             autoFocus
                             value={value}
-                            placeholder='Add Spot'
+                            placeholder='Enter Spot'
                             onBlur={onBlur}
                             onChange={onChange}
+                            error={Boolean(errors.name)}
                           />
                         )}
                       />
+                      {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
                     </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={8} >

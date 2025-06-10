@@ -11,4 +11,5 @@ export default {
     product: `${BASEURL}/product`,
     spot: `${BASEURL}/spot`,
     unit: `${BASEURL}/unit`,
+    input: `${BASEURL}/input`,
 }

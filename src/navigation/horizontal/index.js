@@ -6,6 +6,8 @@ import Shape from 'mdi-material-ui/Shape'
 import BagChecked from 'mdi-material-ui/BagChecked'
 import StoreSettings from 'mdi-material-ui/StoreSettings'
 import Unicode from 'mdi-material-ui/Unicode'
+import PlaylistPlus from 'mdi-material-ui/PlaylistPlus'
+import PlaylistMinus from 'mdi-material-ui/PlaylistMinus'
 
 
 const navigation = () => [
@@ -44,6 +46,16 @@ const navigation = () => [
         path: '/basic/unit'
       }
     ]
+  },
+  {
+    title: 'Input',
+    icon: PlaylistPlus,
+    path: '/input'
+  },
+  {
+    title: 'Output',
+    icon: PlaylistMinus,
+    path: '/output'
   }
 ]
 
