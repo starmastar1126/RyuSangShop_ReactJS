@@ -449,7 +449,7 @@ const Product = () => {
                             placeholder='Enter Cost'
                             error={Boolean(errors.cost)}
                             // helperText={errors.cost?.message}
-                            inputProps={{ min: '0.01', step: '0.01' }}
+                            inputProps={{ min: '0.001', step: '0.1' }}
                           />
                         )}
                       />
@@ -472,7 +472,7 @@ const Product = () => {
                             placeholder='Enter Price'
                             error={Boolean(errors.price)}
                             // helperText={errors.price?.message}
-                            inputProps={{ min: '0.01', step: '0.01' }}
+                            inputProps={{ min: '0.001', step: '0.1' }}
                           />
                         )}
                       />
