@@ -12,7 +12,6 @@ import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import { DataGrid } from '@mui/x-data-grid'
 import FormControl from '@mui/material/FormControl'
-import FormHelperText from '@mui/material/FormHelperText'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
@@ -47,8 +46,8 @@ import {
 import TableHeader from 'src/views/basic/product/TableHeader'
 
 const schema = yup.object().shape({
-  // spot: yup.object().required('Spot is required'),
-  // category: yup.object().required('Category is required'),
+  spot: yup.object().required('Spot is required'),
+  category: yup.object().required('Category is required'),
   name: yup.string().required('Product Name is required'),
   cost: yup.number()
     .typeError('Cost must be a number')
@@ -58,7 +57,7 @@ const schema = yup.object().shape({
     .typeError('Price must be a number')
     .positive('Price must be greater than zero')
     .required('Price is required'),
-  // unit: yup.object().required('Unit is required'),
+  unit: yup.object().required('Unit is required'),
   note: yup.string()
 })
 
@@ -368,6 +367,8 @@ const Product = () => {
                                 inputRef={ref}
                                 label='Spot'
                                 placeholder='Select Spot'
+                                error={Boolean(errors.spot)}
+                              // helperText={errors.spot?.message}
                               />
                             )}
                           />
@@ -401,6 +402,8 @@ const Product = () => {
                                 inputRef={ref}
                                 label='Category'
                                 placeholder='Select Category'
+                                error={Boolean(errors.category)}
+                              // helperText={errors.category?.message}
                               />
                             )}
                           />
@@ -423,10 +426,10 @@ const Product = () => {
                             onBlur={onBlur}
                             onChange={onChange}
                             error={Boolean(errors.name)}
+                          // helperText={errors.name?.message}
                           />
                         )}
                       />
-                      {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
                     </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={1}>
@@ -434,30 +437,22 @@ const Product = () => {
                       <Controller
                         name='cost'
                         control={control}
-                        rules={{ required: true }}
                         render={({ field: { value, onChange, onBlur } }) => (
                           <TextField
+                            type='number'
+                            inputMode='decimal'
                             label='Cost'
                             size='small'
-                            autoFocus
                             value={value}
-                            placeholder='Enter Cost'
                             onBlur={onBlur}
-                            onChange={onChange}
-                            onKeyDown={(e) => {
-                              const allowedKeys = [
-                                'Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', '.', // allow decimal
-                              ]
-                              const isNumber = /^[0-9]$/.test(e.key)
-                              if (!isNumber && !allowedKeys.includes(e.key)) {
-                                e.preventDefault()
-                              }
-                            }}
+                            onChange={(e) => onChange(parseFloat(e.target.value))}
+                            placeholder='Enter Cost'
                             error={Boolean(errors.cost)}
+                            // helperText={errors.cost?.message}
+                            inputProps={{ min: '0.01', step: '0.01' }}
                           />
                         )}
                       />
-                      {errors.cost && <FormHelperText sx={{ color: 'error.main' }}>{errors.cost.message}</FormHelperText>}
                     </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={1}>
@@ -465,30 +460,22 @@ const Product = () => {
                       <Controller
                         name='price'
                         control={control}
-                        rules={{ required: true }}
                         render={({ field: { value, onChange, onBlur } }) => (
                           <TextField
+                            type='number'
+                            inputMode='decimal'
                             label='Price'
                             size='small'
-                            autoFocus
                             value={value}
-                            placeholder='Enter Price'
                             onBlur={onBlur}
-                            onChange={onChange}
-                            onKeyDown={(e) => {
-                              const allowedKeys = [
-                                'Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', '.', // allow decimal
-                              ]
-                              const isNumber = /^[0-9]$/.test(e.key)
-                              if (!isNumber && !allowedKeys.includes(e.key)) {
-                                e.preventDefault()
-                              }
-                            }}
+                            onChange={(e) => onChange(parseFloat(e.target.value))}
+                            placeholder='Enter Price'
                             error={Boolean(errors.price)}
+                            // helperText={errors.price?.message}
+                            inputProps={{ min: '0.01', step: '0.01' }}
                           />
                         )}
                       />
-                      {errors.price && <FormHelperText sx={{ color: 'error.main' }}>{errors.price.message}</FormHelperText>}
                     </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={1}>
@@ -517,6 +504,8 @@ const Product = () => {
                                 inputRef={ref}
                                 label='Unit'
                                 placeholder='Select Unit'
+                                error={Boolean(errors.unit)}
+                              // helperText={errors.unit?.message}
                               />
                             )}
                           />

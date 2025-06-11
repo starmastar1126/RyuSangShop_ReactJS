@@ -12,7 +12,6 @@ import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import { DataGrid } from '@mui/x-data-grid'
 import FormControl from '@mui/material/FormControl'
-import FormHelperText from '@mui/material/FormHelperText'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
@@ -45,7 +44,7 @@ import {
 import TableHeader from 'src/views/basic/client/TableHeader'
 
 const schema = yup.object().shape({
-  // organization: yup.object().required('Organization is required'),
+  organization: yup.object().required('Organization Name is required'),
   name: yup.string().required('Client Name is required')
 })
 
@@ -252,12 +251,12 @@ const Client = () => {
                                 label='Organization'
                                 placeholder='Select Organization'
                                 error={Boolean(errors.organization)}
+                              // helperText={errors.organization?.message}
                               />
                             )}
                           />
                         )}
                       />
-                      {errors.organization && <FormHelperText sx={{ color: 'error.main' }}>{errors.organization.message}</FormHelperText>}
                     </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={4}>
@@ -275,10 +274,10 @@ const Client = () => {
                             onBlur={onBlur}
                             onChange={onChange}
                             error={Boolean(errors.name)}
+                          // helperText={errors.name?.message}
                           />
                         )}
                       />
-                      {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
                     </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={4} >

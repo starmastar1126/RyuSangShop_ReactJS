@@ -12,7 +12,6 @@ import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import { DataGrid } from '@mui/x-data-grid'
 import FormControl from '@mui/material/FormControl'
-import FormHelperText from '@mui/material/FormHelperText'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
@@ -199,10 +198,10 @@ const Category = () => {
                             onBlur={onBlur}
                             onChange={onChange}
                             error={Boolean(errors.name)}
+                          // helperText={errors.name?.message}
                           />
                         )}
                       />
-                      {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
                     </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={8} >
