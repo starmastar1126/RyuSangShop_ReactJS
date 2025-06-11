@@ -518,7 +518,6 @@ const Product = () => {
                       <Controller
                         name='note'
                         control={control}
-                        rules={{ required: true }}
                         render={({ field: { value, onChange, onBlur } }) => (
                           <TextField
                             size='small'
