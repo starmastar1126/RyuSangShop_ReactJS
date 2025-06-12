@@ -193,6 +193,7 @@ const Spot = () => {
                           <TextField
                             size='small'
                             autoFocus
+                            label='Spot'
                             value={value}
                             placeholder='Enter Spot'
                             onBlur={onBlur}

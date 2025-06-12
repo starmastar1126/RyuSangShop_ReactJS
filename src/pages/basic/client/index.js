@@ -269,6 +269,7 @@ const Client = () => {
                           <TextField
                             size='small'
                             autoFocus
+                            label='Client'
                             value={value}
                             placeholder='Enter Client'
                             onBlur={onBlur}

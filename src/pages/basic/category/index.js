@@ -193,6 +193,7 @@ const Category = () => {
                           <TextField
                             size='small'
                             autoFocus
+                            label='Category'
                             value={value}
                             placeholder='Enter Category'
                             onBlur={onBlur}

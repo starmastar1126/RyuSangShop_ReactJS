@@ -193,6 +193,7 @@ const Unit = () => {
                           <TextField
                             size='small'
                             autoFocus
+                            label='Unit'
                             value={value}
                             placeholder='Enter Unit'
                             onBlur={onBlur}

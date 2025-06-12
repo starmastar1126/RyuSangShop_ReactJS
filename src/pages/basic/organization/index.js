@@ -193,6 +193,7 @@ const Organization = () => {
                           <TextField
                             size='small'
                             autoFocus
+                            label='Organization'
                             value={value}
                             placeholder='Enter Organization'
                             onBlur={onBlur}

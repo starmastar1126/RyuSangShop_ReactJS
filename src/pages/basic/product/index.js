@@ -421,6 +421,7 @@ const Product = () => {
                           <TextField
                             size='small'
                             autoFocus
+                            label='Product'
                             value={value}
                             placeholder='Enter Product'
                             onBlur={onBlur}
@@ -522,6 +523,7 @@ const Product = () => {
                           <TextField
                             size='small'
                             autoFocus
+                            label='Note'
                             value={value}
                             placeholder='Enter Note'
                             onBlur={onBlur}
