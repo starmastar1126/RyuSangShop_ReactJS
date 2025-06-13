@@ -78,13 +78,6 @@ const Unit = () => {
     dispatch(fetchUnit({ search }))
   }, [dispatch, search])
 
-  const handleCancel = () => {
-    setSelected(null)
-    setButton('Add')
-    setCancel(false)
-    reset({ id: 0, name: '' })
-  }
-
   const onSubmit = data => {
     const { id, name } = data
 
@@ -97,8 +90,11 @@ const Unit = () => {
     handleCancel()
   }
 
-  const handleSearch = value => {
-    setSearch(value)
+  const handleCancel = () => {
+    setSelected(null)
+    setButton('Add')
+    setCancel(false)
+    reset({ id: 0, name: '' })
   }
 
   const handleEdit = (unit) => {
@@ -121,6 +117,10 @@ const Unit = () => {
     dispatch(deleteUnit({ id: selected.id, search }))
     setOpen(false)
     handleCancel()
+  }
+
+  const handleSearch = value => {
+    setSearch(value)
   }
 
   const columns = [

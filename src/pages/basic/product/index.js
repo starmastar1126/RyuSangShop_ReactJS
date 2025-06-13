@@ -109,22 +109,6 @@ const Product = () => {
     dispatch(fetchProduct({ search }))
   }, [dispatch, search])
 
-  const handleCancel = () => {
-    setSelected(null)
-    setButton('Add')
-    setCancel(false)
-    reset({
-      id: 0,
-      spot: null,
-      category: null,
-      name: '',
-      cost: 0,
-      price: 0,
-      unit: null,
-      note: ''
-    })
-  }
-
   const onSubmit = data => {
     const { id, spot, category, name, cost, price, unit, note } = data
 
@@ -149,8 +133,20 @@ const Product = () => {
     }
   }
 
-  const handleSearch = value => {
-    setSearch(value)
+  const handleCancel = () => {
+    setSelected(null)
+    setButton('Add')
+    setCancel(false)
+    reset({
+      id: 0,
+      spot: null,
+      category: null,
+      name: '',
+      cost: 0,
+      price: 0,
+      unit: null,
+      note: ''
+    })
   }
 
   const handleEdit = (product) => {
@@ -195,6 +191,10 @@ const Product = () => {
     dispatch(deleteProduct({ id: selected.id, search }))
     setOpen(false)
     handleCancel()
+  }
+
+  const handleSearch = value => {
+    setSearch(value)
   }
 
   const columns = [

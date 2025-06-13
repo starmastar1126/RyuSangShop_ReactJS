@@ -87,13 +87,6 @@ const Client = () => {
     dispatch(fetchClient({ search }))
   }, [dispatch, search])
 
-  const handleCancel = () => {
-    setSelected(null)
-    setButton('Add')
-    setCancel(false)
-    reset({ id: 0, organization: null, name: '' })
-  }
-
   const onSubmit = data => {
     const { id, organization, name } = data
 
@@ -113,8 +106,11 @@ const Client = () => {
     }
   }
 
-  const handleSearch = value => {
-    setSearch(value)
+  const handleCancel = () => {
+    setSelected(null)
+    setButton('Add')
+    setCancel(false)
+    reset({ id: 0, organization: null, name: '' })
   }
 
   const handleEdit = (client) => {
@@ -148,6 +144,10 @@ const Client = () => {
     dispatch(deleteClient({ id: selected.id, search }))
     setOpen(false)
     handleCancel()
+  }
+
+  const handleSearch = value => {
+    setSearch(value)
   }
 
   const columns = [

@@ -78,13 +78,6 @@ const Organization = () => {
     dispatch(fetchOrganization({ search }))
   }, [dispatch, search])
 
-  const handleCancel = () => {
-    setSelected(null)
-    setButton('Add')
-    setCancel(false)
-    reset({ id: 0, name: '' })
-  }
-
   const onSubmit = data => {
     const { id, name } = data
 
@@ -97,8 +90,11 @@ const Organization = () => {
     handleCancel()
   }
 
-  const handleSearch = value => {
-    setSearch(value)
+  const handleCancel = () => {
+    setSelected(null)
+    setButton('Add')
+    setCancel(false)
+    reset({ id: 0, name: '' })
   }
 
   const handleEdit = (organization) => {
@@ -121,6 +117,10 @@ const Organization = () => {
     dispatch(deleteOrganization({ id: selected.id, search }))
     setOpen(false)
     handleCancel()
+  }
+
+  const handleSearch = value => {
+    setSearch(value)
   }
 
   const columns = [
