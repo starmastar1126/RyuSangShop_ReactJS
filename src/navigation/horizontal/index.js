@@ -50,7 +50,7 @@ const navigation = () => [
   {
     title: 'Input',
     icon: PlaylistPlus,
-    path: '/input'
+    path: '/input/list'
   },
   {
     title: 'Output',

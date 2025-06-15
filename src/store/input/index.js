@@ -36,6 +36,32 @@ export const fetchInput = createAsyncThunk('input/fetchData', async (params, thu
   }
 })
 
+// ** Fetch Inputs
+export const getInput = createAsyncThunk('input/getData', async (params, thunkAPI) => {
+  const header = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${window.localStorage.getItem(urls.access)}`
+  }
+
+  try {
+    // let url = utils.toURL({
+    //   url: urls.input,
+    //   query: {
+    //     id: params.id
+    //   }
+    // })
+    let response = await Http.get(`${urls.input}/${params.id}`, header)
+    const { status, data } = response
+    if (status === 200) {
+      return data.data
+    } else {
+      return thunkAPI.rejectWithValue()
+    }
+  } catch (error) {
+    return thunkAPI.rejectWithValue()
+  }
+})
+
 export const addInput = createAsyncThunk('input/addData', async (params, thunkAPI) => {
   const header = {
     'Content-Type': 'application/json',
@@ -76,12 +102,7 @@ export const editInput = createAsyncThunk('input/editData', async (params, thunk
   try {
     let url = utils.toURL({
       url: urls.input,
-      query: {
-        id: params.id,
-        fromDate: format(params.fromDate, 'yyyy-MM-dd'),
-        toDate: format(params.toDate, 'yyyy-MM-dd'),
-        search: params.search
-      }
+      query: params
     })
 
     let response = await Http.put(url, params, header)
@@ -142,6 +163,10 @@ export const inputSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(fetchInput.fulfilled, (state, action) => {
+        state.data = action.payload?.items
+        state.total = action.payload?.total
+      })
+      .addCase(getInput.fulfilled, (state, action) => {
         state.data = action.payload?.items
         state.total = action.payload?.total
       })

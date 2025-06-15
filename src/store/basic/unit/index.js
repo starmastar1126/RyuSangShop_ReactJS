@@ -24,6 +24,8 @@ export const fetchUnit = createAsyncThunk('unit/fetchData', async (params, thunk
     const { status, data } = response
     if (status === 200) {
       return data.data
+    } else if (status === 204) {
+      return { items: [], total: 0 }
     } else {
       return thunkAPI.rejectWithValue()
     }
